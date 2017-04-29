@@ -1,0 +1,97 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"33 D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\ECCP.h
+[v _set_PWM_duty `(v ~T0 @X0 0 ef2`uc`i ]
+[; ;integer.h: 15: typedef char int8_t;
+[; ;integer.h: 16: typedef unsigned char uint8_t;
+[; ;integer.h: 17: typedef int int16_t;
+[; ;integer.h: 18: typedef unsigned int uint16_t;
+[; ;ECCP.h: 20: typedef struct _eccp_config_st {
+[; ;ECCP.h: 22: unsigned char PR_Value;
+[; ;ECCP.h: 24: unsigned char CCPnM;
+[; ;ECCP.h: 26: unsigned char PnM;
+[; ;ECCP.h: 27: } eccp_config_t;
+[; ;ECCP.h: 32: void ECCP1_Init(struct _eccp_config_st *eccp_config);
+[; ;ECCP.h: 33: void set_PWM_duty(unsigned char id, int duty);
+[; ;ECCP.h: 34: void ECCP2_Init(struct _eccp_config_st *eccp_config);
+[; ;ECCP.h: 35: void TMR4_Interrupt_set(uint8_t ps);
+[; ;ECCP.h: 36: void eccp_config_param_init(eccp_config_t *eccp_config);
+[; ;control_h_bridge.h: 18: int16_t set_motor_power(uint8_t id, int16_t power);
+[; ;control_h_bridge.h: 19: void stop_PWM(void);
+"8 D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\control_h_bridge.c
+[v _set_motor_power `(i ~T0 @X0 1 ef2`uc`i ]
+{
+[; ;control_h_bridge.c: 8: int16_t set_motor_power(uint8_t id, int16_t power){
+[e :U _set_motor_power ]
+[v _id `uc ~T0 @X0 1 r1 ]
+[v _power `i ~T0 @X0 1 r2 ]
+[f ]
+"9
+[v F28 `i ~T0 @X0 1 s power_dd ]
+[i F28
+-> 0 `i
+]
+[; ;control_h_bridge.c: 9: static int16_t power_dd = 0;
+[; ;control_h_bridge.c: 10: power = ((((((power)) > ((1023)) ? ((1023)):((power)))) > ((-1023)) ? ((((power)) > ((1023)) ? ((1023)):((power)))):((-1023))));
+"10
+[e = _power ? > ? > _power -> 1023 `i : -> 1023 `i _power -U -> 1023 `i : ? > _power -> 1023 `i : -> 1023 `i _power -U -> 1023 `i ]
+[; ;control_h_bridge.c: 11: power_dd += ((((((power - power_dd)) > ((5)) ? ((5)):((power - power_dd)))) > ((-5)) ? ((((power - power_dd)) > ((5)) ? ((5)):((power - power_dd)))):((-5))));
+"11
+[e =+ F28 ? > ? > - _power F28 -> 5 `i : -> 5 `i - _power F28 -U -> 5 `i : ? > - _power F28 -> 5 `i : -> 5 `i - _power F28 -U -> 5 `i ]
+[; ;control_h_bridge.c: 15: if(power_dd >= 0){
+"15
+[e $ ! >= F28 -> 0 `i 3  ]
+{
+[; ;control_h_bridge.c: 16: power_dd = ((((((power_dd)) > ((1011)) ? ((1011)):((power_dd)))) > ((0)) ? ((((power_dd)) > ((1011)) ? ((1011)):((power_dd)))):((0))));
+"16
+[e = F28 ? > ? > F28 -> 1011 `i : -> 1011 `i F28 -> 0 `i : ? > F28 -> 1011 `i : -> 1011 `i F28 -> 0 `i ]
+[; ;control_h_bridge.c: 17: set_PWM_duty(1, power_dd);
+"17
+[e ( _set_PWM_duty (2 , -> -> 1 `i `uc F28 ]
+[; ;control_h_bridge.c: 18: set_PWM_duty(2, 0);
+"18
+[e ( _set_PWM_duty (2 , -> -> 2 `i `uc -> 0 `i ]
+"19
+}
+[; ;control_h_bridge.c: 19: }
+[e $U 4  ]
+"20
+[e :U 3 ]
+[; ;control_h_bridge.c: 20: else{
+{
+[; ;control_h_bridge.c: 21: power_dd = ((((((power_dd)) > ((0)) ? ((0)):((power_dd)))) > ((-1011)) ? ((((power_dd)) > ((0)) ? ((0)):((power_dd)))):((-1011))));
+"21
+[e = F28 ? > ? > F28 -> 0 `i : -> 0 `i F28 -U -> 1011 `i : ? > F28 -> 0 `i : -> 0 `i F28 -U -> 1011 `i ]
+[; ;control_h_bridge.c: 22: set_PWM_duty(1, 0);
+"22
+[e ( _set_PWM_duty (2 , -> -> 1 `i `uc -> 0 `i ]
+[; ;control_h_bridge.c: 23: set_PWM_duty(2, -power_dd);
+"23
+[e ( _set_PWM_duty (2 , -> -> 2 `i `uc -U F28 ]
+"24
+}
+[e :U 4 ]
+[; ;control_h_bridge.c: 24: }
+[; ;control_h_bridge.c: 25: return power_dd;
+"25
+[e ) F28 ]
+[e $UE 2  ]
+[; ;control_h_bridge.c: 26: }
+"26
+[e :UE 2 ]
+}
+"28
+[v _stop_PWM `(v ~T0 @X0 1 ef ]
+{
+[; ;control_h_bridge.c: 28: void stop_PWM(void){
+[e :U _stop_PWM ]
+[f ]
+[; ;control_h_bridge.c: 29: set_PWM_duty(1, 0);
+"29
+[e ( _set_PWM_duty (2 , -> -> 1 `i `uc -> 0 `i ]
+[; ;control_h_bridge.c: 30: set_PWM_duty(2, 0);
+"30
+[e ( _set_PWM_duty (2 , -> -> 2 `i `uc -> 0 `i ]
+[; ;control_h_bridge.c: 31: }
+"31
+[e :UE 5 ]
+}

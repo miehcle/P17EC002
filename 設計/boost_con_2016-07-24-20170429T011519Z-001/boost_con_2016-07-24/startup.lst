@@ -1,0 +1,152 @@
+
+
+Microchip Technology PIC Macro Assembler V1.34 build -361300703 
+                                                                                                           Sun Jul 24 18:37:26 2016
+
+
+     1                           
+     2                           	; Microchip MPLAB XC8 C Compiler V1.34
+     3                           	; Copyright (C) 1984-2015 HI-TECH Software
+     4                           
+     5                           	; Auto-generated runtime startup code for final link stage.
+     6                           
+     7                           	;
+     8                           	; Compiler options:
+     9                           	;
+    10                           	; -oboost_con_2016-07-24.cof -mboost_con_2016-07-24.map \
+    11                           	; --summary=default --output=default ADC.p1 boost_con.p1 \
+    12                           	; control_h_bridge.p1 ECCP.p1 ioc.p1 newmain.p1 tmr0.p1 tmr1.p1 \
+    13                           	; uart_16f1827.p1 --chip=16F1827 -P --runtime=default --opt=default \
+    14                           	; -N-1 -D__DEBUG=1 -g --asmlist --errformat=Error   [%n] %f; %l.%c %s \
+    15                           	; --msgformat=Advisory[%n] %s --warnformat=Warning [%n] %f; %l.%c %s
+    16                           	;
+    17                           
+    18                           
+    19                           	processor	16F1827
+    20                           
+    21                           	global	_main,start,reset_vec
+    22                           	fnroot	_main
+    23                           	psect	config,class=CONFIG,delta=2,noexec
+    24                           	psect	idloc,class=IDLOC,delta=2,noexec
+    25                           	psect	code,class=CODE,delta=2
+    26                           	psect	powerup,class=CODE,delta=2
+    27                           	psect	reset_vec,class=CODE,delta=2
+    28                           	psect	maintext,class=CODE,delta=2
+    29  0000                     	Z	set	2
+    30  0002                     	PCL	set	2
+    31  0002                     	INDF	set	0
+    32  0000                     
+    33                           	STATUS	equ	3
+    34  0003                     	BSR	equ	8
+    35  0008                     	PCLATH	equ	0Ah
+    36  000A                     	psect	eeprom_data,class=EEDATA,delta=2,space=3,noexec
+    37                           	psect	strings,class=CODE,delta=2,reloc=256
+    38                           	psect	intentry,class=CODE,delta=2
+    39                           	psect	functab,class=CODE,delta=2
+    40                           	global	intlevel0,intlevel1,intlevel2, intlevel3, intlevel4, intlevel5
+    41                           intlevel0:
+    42  0000                     intlevel1:
+    43  0000                     intlevel2:
+    44  0000                     intlevel3:
+    45  0000                     intlevel4:
+    46  0000                     intlevel5:
+    47  0000                     	psect	init,class=CODE,delta=2
+    48                           	psect	cinit,class=CODE,delta=2
+    49                           	psect	text,class=CODE,delta=2
+    50                           	psect	end_init,class=CODE,delta=2
+    51                           	psect	clrtext,class=CODE,delta=2
+    52                           	INDF0	set	0
+    53  0000                     	INDF1	set	1
+    54  0001                     	PCL	set	2
+    55  0002                     	STATUS	set	3
+    56  0003                     	FSR0L	set	4
+    57  0004                     	FSR0H	set	5
+    58  0005                     	FSR1L	set	6
+    59  0006                     	FSR1H	set	7
+    60  0007                     	BSR	set	8
+    61  0008                     	WREG	set	9
+    62  0009                     	PCLATH	set	10
+    63  000A                     	INTCON	set	11
+    64  000B                     
+    65                           	psect	reset_vec
+    66                           reset_vec:
+    67  0000                     	; No powerup routine
+    68                           	global start
+    69                           
+    70                           ; jump to start
+    71                           	ljmp	start
+    72  0000  3180  28C4         
+    73                           
+    74                           	psect	init
+    75                           start
+    76  00C4                     
+    77                           ;Initialize the stack pointer (FSR1)
+    78                           ;Stack space: 020D4h-0216Fh (156 bytes)
+    79                           
+    80                           	fsr1l	equ	6
+    81  0006                     	fsr1h	equ	7
+    82  0007                     	global stacklo, stackhi
+    83                           	stacklo	equ	020D4h
+    84  20D4                     	stackhi	equ	0216Fh
+    85  216F                     
+    86                           
+    87                           	psect	stack,class=STACK,space=2,noexec
+    88                           	global ___sp,___int_sp
+    89                           	___sp:
+    90  0000                     	___int_sp:
+    91  0000                     
+    92                           	psect	end_init
+    93                           	global start_initialization
+    94                           	ljmp start_initialization	;jump to C runtime clear & initialization
+    95  00C4  3180  28C6         
+    96                           ; Config register CONFIG1 @ 0x8007
+    97                           ;	Clock Out Enable
+    98                           ;	CLKOUTEN = OFF, CLKOUT function is disabled. I/O or oscillator function on the CLKOUT pin
+    99                           ;	Watchdog Timer Enable
+   100                           ;	WDTE = OFF, WDT disabled
+   101                           ;	Power-up Timer Enable
+   102                           ;	PWRTE = ON, PWRT enabled
+   103                           ;	Flash Program Memory Code Protection
+   104                           ;	CP = OFF, Program memory code protection is disabled
+   105                           ;	Brown-out Reset Enable
+   106                           ;	BOREN = OFF, Brown-out Reset disabled
+   107                           ;	Fail-Safe Clock Monitor Enable
+   108                           ;	FCMEN = ON, Fail-Safe Clock Monitor is enabled
+   109                           ;	MCLR Pin Function Select
+   110                           ;	MCLRE = OFF, MCLR/VPP pin function is digital input
+   111                           ;	Data Memory Code Protection
+   112                           ;	CPD = OFF, Data memory code protection is disabled
+   113                           ;	Internal/External Switchover
+   114                           ;	IESO = ON, Internal/External Switchover mode is enabled
+   115                           ;	Oscillator Selection
+   116                           ;	FOSC = INTOSC, INTOSC oscillator: I/O function on CLKIN pin
+   117                           
+   118                           	psect	config
+   119                           		org 0x0
+   120  8007                     		dw 0xF984
+   121  8007  F984               
+   122                           ; Config register CONFIG2 @ 0x8008
+   123                           ;	Stack Overflow/Underflow Reset Enable
+   124                           ;	STVREN = ON, Stack Overflow or Underflow will cause a Reset
+   125                           ;	Brown-out Reset Voltage Selection
+   126                           ;	BORV = LO, Brown-out Reset Voltage (Vbor), low trip point selected.
+   127                           ;	Low-Voltage Programming Enable
+   128                           ;	LVP = OFF, High-voltage on MCLR/VPP must be used for programming
+   129                           ;	Flash Memory Self-Write Protection
+   130                           ;	WRT = OFF, Write protection off
+   131                           ;	PLL Enable
+   132                           ;	PLLEN = ON, 4x PLL enabled
+   133                           
+   134                           	psect	config
+   135                           		org 0x1
+   136  8008                     		dw 0xDFFF
+   137  8008  DFFF               
+
+
+Microchip Technology PIC Macro Assembler V1.34 build -361300703 
+Symbol Table                                                                                               Sun Jul 24 18:37:26 2016
+
+               ___sp 0000                 _main 00F7                 start 00C4               stackhi 216F  
+             stacklo 20D4  start_initialization 00C6             ___int_sp 0000             intlevel0 0000  
+           intlevel1 0000             intlevel2 0000             intlevel3 0000             intlevel4 0000  
+           intlevel5 0000             reset_vec 0000  

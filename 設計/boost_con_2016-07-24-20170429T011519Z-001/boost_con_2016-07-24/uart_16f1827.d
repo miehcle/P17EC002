@@ -1,0 +1,1 @@
+ uart_16f1827.d  uart_16f1827.p1:  D:/Users/Yosuke/Videos/Users/Yosuke/Documents/MPLAB\ 8\ Projects/boost_con_2016-07-24/src/uart_16f1827.c D:/Users/Yosuke/Videos/Users/Yosuke/Documents/MPLAB\ 8\ Projects/boost_con_2016-07-24/src/uart_16f1827.h D:/Users/Yosuke/Videos/Users/Yosuke/Documents/MPLAB\ 8\ Projects/boost_con_2016-07-24/src/system_config.h

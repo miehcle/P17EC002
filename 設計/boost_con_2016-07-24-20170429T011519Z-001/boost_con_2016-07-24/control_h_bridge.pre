@@ -1,0 +1,57 @@
+
+# 1 "D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\control_h_bridge.c"
+
+# 15 "D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\integer.h"
+typedef char int8_t;
+typedef unsigned char uint8_t;
+typedef int int16_t;
+typedef unsigned int uint16_t;
+
+# 20 "D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\ECCP.h"
+typedef struct _eccp_config_st {
+
+unsigned char PR_Value;
+
+unsigned char CCPnM;
+
+unsigned char PnM;
+} eccp_config_t;
+
+
+
+
+void ECCP1_Init(struct _eccp_config_st *eccp_config);
+void set_PWM_duty(unsigned char id, int duty);
+void ECCP2_Init(struct _eccp_config_st *eccp_config);
+void TMR4_Interrupt_set(uint8_t ps);
+void eccp_config_param_init(eccp_config_t *eccp_config);
+
+# 18 "D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\control_h_bridge.h"
+int16_t set_motor_power(uint8_t id, int16_t power);
+void stop_PWM(void);
+
+# 8 "D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\control_h_bridge.c"
+int16_t set_motor_power(uint8_t id, int16_t power){
+static int16_t power_dd = 0;
+power = ((((((power)) > ((1023)) ? ((1023)):((power)))) > ((-1023)) ? ((((power)) > ((1023)) ? ((1023)):((power)))):((-1023))));
+power_dd += ((((((power - power_dd)) > ((5)) ? ((5)):((power - power_dd)))) > ((-5)) ? ((((power - power_dd)) > ((5)) ? ((5)):((power - power_dd)))):((-5))));
+
+
+
+if(power_dd >= 0){
+power_dd = ((((((power_dd)) > ((1011)) ? ((1011)):((power_dd)))) > ((0)) ? ((((power_dd)) > ((1011)) ? ((1011)):((power_dd)))):((0))));
+set_PWM_duty(1, power_dd);
+set_PWM_duty(2, 0);
+}
+else{
+power_dd = ((((((power_dd)) > ((0)) ? ((0)):((power_dd)))) > ((-1011)) ? ((((power_dd)) > ((0)) ? ((0)):((power_dd)))):((-1011))));
+set_PWM_duty(1, 0);
+set_PWM_duty(2, -power_dd);
+}
+return power_dd;
+}
+
+void stop_PWM(void){
+set_PWM_duty(1, 0);
+set_PWM_duty(2, 0);
+}

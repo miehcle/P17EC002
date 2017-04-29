@@ -1,0 +1,78 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"33 D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\ECCP.h
+[v _set_PWM_duty `(v ~T0 @X0 0 ef2`uc`i ]
+[; ;integer.h: 15: typedef char int8_t;
+[; ;integer.h: 16: typedef unsigned char uint8_t;
+[; ;integer.h: 17: typedef int int16_t;
+[; ;integer.h: 18: typedef unsigned int uint16_t;
+[; ;ECCP.h: 20: typedef struct _eccp_config_st {
+[; ;ECCP.h: 22: unsigned char PR_Value;
+[; ;ECCP.h: 24: unsigned char CCPnM;
+[; ;ECCP.h: 26: unsigned char PnM;
+[; ;ECCP.h: 27: } eccp_config_t;
+[; ;ECCP.h: 32: void ECCP1_Init(struct _eccp_config_st *eccp_config);
+[; ;ECCP.h: 33: void set_PWM_duty(unsigned char id, int duty);
+[; ;ECCP.h: 34: void ECCP2_Init(struct _eccp_config_st *eccp_config);
+[; ;ECCP.h: 35: void TMR4_Interrupt_set(uint8_t ps);
+[; ;ECCP.h: 36: void eccp_config_param_init(eccp_config_t *eccp_config);
+[; ;control_h_bridge.h: 18: int16_t set_motor_power(uint8_t id, int16_t power);
+[; ;control_h_bridge.h: 19: void stop_PWM(void);
+[; ;boost_con.h: 14: int16_t set_halfbridge_duty(uint8_t id, int16_t power);
+"9 D:\Users\Yosuke\Videos\Users\Yosuke\Documents\MPLAB 8 Projects\boost_con_2016-07-24\src\boost_con.c
+[v _set_halfbridge_duty `(i ~T0 @X0 1 ef2`uc`i ]
+{
+[; ;boost_con.c: 9: int16_t set_halfbridge_duty(uint8_t id, int16_t power){
+[e :U _set_halfbridge_duty ]
+[v _id `uc ~T0 @X0 1 r1 ]
+[v _power `i ~T0 @X0 1 r2 ]
+[f ]
+"10
+[v F31 `i ~T0 @X0 -> 2 `i s power_dd ]
+[i F31
+:U ..
+-> 479 `i
+-> 32 `i
+..
+]
+[; ;boost_con.c: 10: static int16_t power_dd[2] = {479, 32};
+[; ;boost_con.c: 11: power = ((((((power)) > ((1023)) ? ((1023)):((power)))) > ((0)) ? ((((power)) > ((1023)) ? ((1023)):((power)))):((0))));
+"11
+[e = _power ? > ? > _power -> 1023 `i : -> 1023 `i _power -> 0 `i : ? > _power -> 1023 `i : -> 1023 `i _power -> 0 `i ]
+[; ;boost_con.c: 12: power_dd[id-1] += ((((((power - power_dd[id-1])) > ((5)) ? ((5)):((power - power_dd[id-1])))) > ((-5)) ? ((((power - power_dd[id-1])) > ((5)) ? ((5)):((power - power_dd[id-1])))):((-5))));
+"12
+[e =+ *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux ? > ? > - _power *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 5 `i : -> 5 `i - _power *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -U -> 5 `i : ? > - _power *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 5 `i : -> 5 `i - _power *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -U -> 5 `i ]
+[; ;boost_con.c: 16: if(id == 1){
+"16
+[e $ ! == -> _id `i -> 1 `i 3  ]
+{
+[; ;boost_con.c: 17: power_dd[id-1] = ((((((power_dd[id-1])) > ((479)) ? ((479)):((power_dd[id-1])))) > ((255)) ? ((((power_dd[id-1])) > ((479)) ? ((479)):((power_dd[id-1])))):((255))));
+"17
+[e = *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux ? > ? > *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 479 `i : -> 479 `i *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 255 `i : ? > *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 479 `i : -> 479 `i *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 255 `i ]
+"18
+}
+[; ;boost_con.c: 18: }
+[e $U 4  ]
+"19
+[e :U 3 ]
+[; ;boost_con.c: 19: else if(id == 2){
+[e $ ! == -> _id `i -> 2 `i 5  ]
+{
+[; ;boost_con.c: 20: power_dd[id-1] = ((((((power_dd[id-1])) > ((256)) ? ((256)):((power_dd[id-1])))) > ((32)) ? ((((power_dd[id-1])) > ((256)) ? ((256)):((power_dd[id-1])))):((32))));
+"20
+[e = *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux ? > ? > *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 256 `i : -> 256 `i *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 32 `i : ? > *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 256 `i : -> 256 `i *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux -> 32 `i ]
+"21
+}
+[e :U 5 ]
+"22
+[e :U 4 ]
+[; ;boost_con.c: 21: }
+[; ;boost_con.c: 22: set_PWM_duty(id, power_dd[id-1]);
+[e ( _set_PWM_duty (2 , _id *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux ]
+[; ;boost_con.c: 23: return power_dd[id-1];
+"23
+[e ) *U + &U F31 * -> -> - -> _id `i -> 1 `i `ui `ux -> -> # *U &U F31 `ui `ux ]
+[e $UE 2  ]
+[; ;boost_con.c: 24: }
+"24
+[e :UE 2 ]
+}
